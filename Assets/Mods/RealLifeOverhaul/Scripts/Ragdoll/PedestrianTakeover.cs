@@ -26,6 +26,8 @@ namespace RealLifeOverhaul
         /// <summary>True while a pedestrian is in our hands.</summary>
         public bool Held => _pedestrian != null;
 
+        internal Pedestrian HeldPedestrian => _pedestrian;
+
         public ThirdPersonCharacter Character => _pedestrian != null ? _pedestrian.tpc : null;
 
         /// <summary>True if the game put the pedestrian away (or destroyed it) while it was ours.</summary>

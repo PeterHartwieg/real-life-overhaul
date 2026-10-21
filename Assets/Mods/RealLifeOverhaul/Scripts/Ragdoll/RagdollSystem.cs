@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BAModAPI;
 using UnityEngine;
 
@@ -47,6 +48,20 @@ namespace RealLifeOverhaul
 
         /// <summary>False once ragdolls have been given up for this session.</summary>
         public bool Working => !_failed;
+
+        /// <summary>Active ragdolls keep their character even when their physics has come to rest.</summary>
+        internal void AppendBodies(List<object> characters)
+        {
+            for (int i = 0; i < _ragdolls.Length; i++)
+            {
+                Ragdoll ragdoll = _ragdolls[i];
+                BaseHuman character = ragdoll != null && ragdoll.Active ? ragdoll.Character : null;
+                if (character != null && !characters.Contains(character))
+                {
+                    characters.Add(character);
+                }
+            }
+        }
 
         private void Awake()
         {

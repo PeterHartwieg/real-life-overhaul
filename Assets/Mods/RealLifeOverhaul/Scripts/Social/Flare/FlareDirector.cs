@@ -32,6 +32,8 @@ namespace RealLifeOverhaul.Flare
 
         public bool Running => _running && !_broken;
 
+        internal bool Faulted => _broken;
+
         /// <summary>The save's account; null while Flare is not running.</summary>
         public FlareFile File => Running ? _file : null;
 

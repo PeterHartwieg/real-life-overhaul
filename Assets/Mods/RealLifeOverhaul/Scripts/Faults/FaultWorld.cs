@@ -86,6 +86,21 @@ namespace RealLifeOverhaul.Faults
         public int PropsOut => _props.Out;
         public int DarkLamps { get; private set; }
 
+        /// <summary>The original and live limits of lanes held by potholes. Reads the kept entries only.</summary>
+        internal void AppendSlowedLanes(List<object> lanes, List<int> originalLimits, List<int> currentLimits)
+        {
+            foreach (KeyValuePair<int, Shown> pair in _shown)
+            {
+                Shown shown = pair.Value;
+                if (shown.Lane != null)
+                {
+                    lanes.Add(shown.Lane);
+                    originalLimits.Add(shown.LaneLimit);
+                    currentLimits.Add(shown.Lane.maxSpeed);
+                }
+            }
+        }
+
         /// <summary>
         /// The world brought in line with the faults: what is mended put back, what is new switched (a lamp, a lane) and,
         /// near the player, stood. Called when the faults change and every few seconds as the player moves.

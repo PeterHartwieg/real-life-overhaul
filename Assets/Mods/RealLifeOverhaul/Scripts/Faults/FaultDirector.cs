@@ -65,6 +65,12 @@ namespace RealLifeOverhaul.Faults
         /// <summary>The faults while a save runs them; null otherwise.</summary>
         public FaultFile File => _loaded ? _file : null;
 
+        /// <summary>The lanes the world holds, without running its sync or starting the feature.</summary>
+        internal void AppendSlowedLanes(List<object> lanes, List<int> originalLimits, List<int> currentLimits)
+        {
+            _world?.AppendSlowedLanes(lanes, originalLimits, currentLimits);
+        }
+
         /// <summary>True on a guest of a Going Public session that follows the host's faults: nothing is rolled here.</summary>
         public static bool Following => SharedCity.Follows(FaultShare.Part);
 

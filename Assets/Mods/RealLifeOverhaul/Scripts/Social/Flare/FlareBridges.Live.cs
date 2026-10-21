@@ -6,6 +6,9 @@ namespace RealLifeOverhaul.Flare
     /// <summary>What the living network asks of the rest of the mod (Wiring/FlareLinks); without one it still runs on what Flare knows.</summary>
     public static partial class FlareBridges
     {
+        /// <summary>The complete population after a seed change. Default: nobody needs a prepared read.</summary>
+        internal static Action<int, IReadOnlyList<FlareCitizen>> CitizensChanged;
+
         /// <summary>The city as the day's posts read it. Default: what Flare knows itself.</summary>
         public static Action<FlareCityFacts> CityFacts;
 

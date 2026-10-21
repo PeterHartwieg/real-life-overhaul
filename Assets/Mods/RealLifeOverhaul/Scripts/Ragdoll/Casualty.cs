@@ -54,6 +54,8 @@ namespace RealLifeOverhaul
         public Outcome Result { get; private set; }
         public bool Dead => Result == Outcome.Dead;
 
+        internal Pedestrian HeldPedestrian => _pedestrian.HeldPedestrian;
+
         /// <summary>The player's car did it, so the player answers for it.</summary>
         public bool ByPlayer { get; private set; }
 

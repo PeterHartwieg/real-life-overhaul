@@ -131,6 +131,7 @@ namespace RealLifeOverhaul
             Step("the player's bank", OwnBankLinks.Connect);   // after running a business: its pieces of the paper follow the company's
             Step("the end game at scale", EndScaleLinks.Connect);
             Step("rival tycoons", RivalLinks.Connect);   // after the city's economy, the company, Flare and the interiors: what it wraps of theirs (footfall, the deal, the paper) is theirs already
+            Step("the public city read API", ModApiLinks.Connect);
             Step("standing", StandingLinks.Connect);   // last: what it wraps of the others' is theirs already
             Logger?.Info("Wiring: the features are connected.");
         }
@@ -143,6 +144,7 @@ namespace RealLifeOverhaul
             }
             Connected = false;
             Step("standing", StandingLinks.Disconnect);   // first: what it wrapped is put back before the others take theirs off
+            Step("the public city read API", ModApiLinks.Disconnect);
             Step("rival tycoons", RivalLinks.Disconnect);   // next: what it wrapped is put back before the others take theirs off
             Step("the player's bank", OwnBankLinks.Disconnect);   // before running a business: what it wrapped of the paper is put back first
             Step("the end game at scale", EndScaleLinks.Disconnect);

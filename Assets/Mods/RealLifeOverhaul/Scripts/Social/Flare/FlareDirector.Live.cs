@@ -82,11 +82,13 @@ namespace RealLifeOverhaul.Flare
             int seed = FlareLiveRules.CitySeed(file);
             if (seed == _citizensSeed && _citizens.Count > 0)
             {
+                FlareBridges.CitizensChanged?.Invoke(seed, _citizens);
                 return;
             }
             FlareGame.Districts(_districts);
             FlareLiveRules.CitizensOf(seed, _districts, _citizens);
             _citizensSeed = seed;
+            FlareBridges.CitizensChanged?.Invoke(seed, _citizens);
         }
 
         /// <summary>True while this machine is a guest that follows the host's feed: its city posts and City Office are the host's.</summary>

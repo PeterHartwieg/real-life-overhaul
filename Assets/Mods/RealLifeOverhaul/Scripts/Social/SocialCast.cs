@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BAModAPI;
 using BigAmbitions.Characters;
 using BigAmbitions.Characters.Appearance;
@@ -49,6 +50,22 @@ namespace RealLifeOverhaul
         public bool AnyOut => (_out[0] && !_seated[0]) || (_out[1] && !_seated[1]);
 
         public bool HasRoom => !_failed && (!_out[0] || !_out[1]);
+
+        /// <summary>The social person represented by a live slot, including somebody seated in a car; -1 for none.</summary>
+        internal int OutPerson(int slot) => _out[slot] ? _wears[slot] : -1;
+
+        /// <summary>Every body belongs to the cast while it is pooled, even when it is not out.</summary>
+        internal void AppendBodies(List<object> characters)
+        {
+            for (int i = 0; i < Size; i++)
+            {
+                CityPerson person = _people[i];
+                if (person != null && person.Character != null && !characters.Contains(person.Character))
+                {
+                    characters.Add(person.Character);
+                }
+            }
+        }
 
         /// <summary>At a tested spot, facing a point. Null if both bodies are out, the spot will not take them, or none can be made.</summary>
         public CityPerson Put(SocialPerson who, Vector3 spot, Vector3 face)

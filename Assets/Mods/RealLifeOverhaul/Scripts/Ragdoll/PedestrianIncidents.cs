@@ -58,6 +58,19 @@ namespace RealLifeOverhaul
         private int _figureFailures;   // standing figures in a row that could not be thrown down
         private bool _figuresOff;
 
+        /// <summary>The game's own pedestrians still held by casualties, without changing their takeover.</summary>
+        internal void AppendBodies(List<object> pedestrians)
+        {
+            for (int i = 0; i < _casualties.Length; i++)
+            {
+                Pedestrian pedestrian = _casualties[i]?.HeldPedestrian;
+                if (pedestrian != null && !pedestrians.Contains(pedestrian))
+                {
+                    pedestrians.Add(pedestrian);
+                }
+            }
+        }
+
         private void Awake()
         {
             Instance = this;

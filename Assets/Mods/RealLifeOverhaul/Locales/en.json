@@ -11739,7 +11739,7 @@
   "reallife_law_station_furniture": "Furnished police stations",
   "reallife_opt_tip_law_station_furniture": "Desks, lockers, a briefing room, a break room and the game's walls and floors, officers at work, and back offices on a large station's bare floor. Off, it is bare as before.",
   "reallife_changes_next_title": "Next version",
-  "reallife_changes_next": "Nothing yet.",
+  "reallife_changes_next": "New: a stable way for other mods to read Flare's citizens, the people and bodies RLO holds, and the road lanes it slows.",
   "reallife_changes_002_4_title": "0.2.4",
   "reallife_changes_002_4": "Each of the city's banks has its own app on the phone, under the game's name for it: your current account and statement, the loans you owe that bank with paying part or all of one, your card, what it offers you today and how it sees your rating. The banks' terms differ a little, so choosing one matters, and under a rating of 580 none of them lends. The mod's contacts have real pictures from the game: people show their faces, and services show a logo. Contacts has a search box at the top. Police stations are furnished with the game's own furniture: desks with computers, lockers, a water cooler, plants, a clock, lamps, and a toilet in the cell. Fixed: with all of the mod's apps on, the row of apps at the top of the full screen menu ran under the money and the date and off the screen; it now has pages, centred between the app's name and the money, turned with the wheel or the dots. Fixed: on the city map, a row of the mod's (Courthouse, Custom shops and the rest) could be unticked while its places stayed on the map; the places now follow the tick you see.",
   "reallife_rota_box_stock_ok": "Its goods keep up with the advised plan.",

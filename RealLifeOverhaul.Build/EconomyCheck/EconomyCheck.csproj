@@ -449,4 +449,10 @@
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Family\TalkRules.cs" Link="Mod\TalkRules.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\ModApi\CityApi.cs" Link="Mod\CityApi.cs" />
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\ModApi\CityApiCitizen.cs" Link="Mod\CityApiCitizen.cs" />
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\ModApi\ModApiBridges.cs" Link="Mod\ModApiBridges.cs" />
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\ModApi\ModApiRules.cs" Link="Mod\ModApiRules.cs" />
+  </ItemGroup>
 </Project>

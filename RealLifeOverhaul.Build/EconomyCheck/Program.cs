@@ -98,6 +98,7 @@ internal static partial class Program
         {
             return WriteTextsSpec(args[1]);   // (RLO Texts' contract of data v6 and its fixtures, written from the mod: TextsSpecWriter.cs)
         }
+        ModApi();
         Catalogue();
         Start();
         CleanHistory();
