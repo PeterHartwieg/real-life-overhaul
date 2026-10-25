@@ -14,7 +14,8 @@ internal static partial class Program
               && director.Contains("!LifeEvents.IsSafeForEvent(pausedIsFine)"),
             "travel fix: being held in place passes the caller's word on a pause to the quiet moment");
         string stay = ModSource(@"Travel\HotelStay.cs");
-        Check(MemberText(stay, "public bool EnterRoom(out TestRefusal why)").Contains("_director.CanSeclude(out why, pausedIsFine: true)"),
+        Check(MemberText(stay, "public bool EnterRoom(out TestRefusal why, HotelSite site = null, bool physical = true)")
+              .Contains("_director.CanSeclude(out why, pausedIsFine: true)"),
             "travel fix: going up to the room is allowed while the game is paused");
         Check(FixLineEverywhere("go up to your hotel room while the game is paused", "subir para o seu quarto de hotel com o jogo em pausa",
                                 "游戏暂停时也能上楼回酒店房间", "auch bei pausiertem Spiel auf dein Hotelzimmer", "monter dans votre chambre d'hôtel pendant que le jeu est en pause",

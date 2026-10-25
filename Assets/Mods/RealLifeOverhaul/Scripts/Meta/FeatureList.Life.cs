@@ -278,7 +278,11 @@ namespace RealLifeOverhaul.Meta
                 .StandsAside(GoingPublic.ClockSentence, Settings.HolidaysId)   // days away cannot pass for one player of a session
                 .Data(TravelState.SaveKey)
                 .Contact(TravelPhone.TripsId, TravelPhone.AgentId)
-                .Cleanup(HotelStay.EndSleepEffects)
+                .Cleanup(() =>
+                {
+                    TravelDirector.Instance?.Visit?.Leave(false);
+                    HotelStay.EndSleepEffects();
+                })
                 .ResetData(TravelState.Reset)
                 .Repair(TravelPhone.Setup);
 

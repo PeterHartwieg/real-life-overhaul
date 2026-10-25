@@ -157,7 +157,7 @@ namespace RealLifeOverhaul
                 }
                 HidePrompt("the room was chosen");
                 gm.playerController.ResetNavigation();
-                if (!Stay.EnterRoom(out TestRefusal why) && why != TestRefusal.None && why != TestRefusal.NothingFits)
+                if (!Stay.EnterRoom(out TestRefusal why, Hotels.InReach) && why != TestRefusal.None && why != TestRefusal.NothingFits)
                 {
                     TravelText.Toast(NotificationType.Info, TravelText.T("reallife_travel_room_not_now"), 5f);
                 }

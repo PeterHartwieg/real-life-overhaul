@@ -381,7 +381,8 @@ namespace RealLifeOverhaul
                     HomeHealth.NewDay(passed);
                 }
                 HomeTidy.Read();
-                HomeHealth.Hourly(atHome, inside && !atHome && !GoingPublic.Mine(InstanceBehavior<BuildingManager>.Instance.buildingRegistration));
+                HomeHealth.Hourly(atHome, inside && !atHome && !(HomeBridges.PrivateGuestRoom?.Invoke() ?? false)
+                                             && !GoingPublic.Mine(InstanceBehavior<BuildingManager>.Instance.buildingRegistration));
             }
 
             if (HomeCookList.IsOpen && (!atHome || !Settings.HomeRoutines || PlayerHelper.IsUsingVehicle || FullMenu.IsOpen || CityMap.IsOpen || MiniMenu.IsOpen || HudConfirm.isOpen
@@ -484,7 +485,8 @@ namespace RealLifeOverhaul
                                       ?? (player != null && player.Character != null ? player.Character.CurrentEntityController as BedController : null);
                             if (bed != null && !string.IsNullOrEmpty(bed.itemName))
                             {
-                                _bedQuality = ItemsGetter.GetByName(bed.itemName).quality;
+                                int guestQuality = HomeBridges.PhysicalBedQuality?.Invoke() ?? -1;
+                                _bedQuality = guestQuality >= 0 ? guestQuality : ItemsGetter.GetByName(bed.itemName).quality;
                             }
                         }
                         catch (Exception)
