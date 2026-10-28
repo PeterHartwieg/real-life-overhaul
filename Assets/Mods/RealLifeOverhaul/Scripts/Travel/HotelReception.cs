@@ -213,7 +213,7 @@ namespace RealLifeOverhaul
             TravelText.Toast(NotificationType.Success, TravelText.T("reallife_travel_desk_booked", "room", TravelText.T(room.NameKey),
                 "day", TravelEffects.DayName(TravelState.CheckoutDay), "time", TravelText.Hour(TravelCatalogue.CheckoutHour)), 10f);
             Close("a room was booked");
-            _stay.GoUpSoon();
+            _stay.GoUpSoon(_site);
         }
 
         /// <summary>Closes the desk if it is open, saying why in the log.</summary>

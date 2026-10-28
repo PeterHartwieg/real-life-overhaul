@@ -18,6 +18,12 @@ namespace RealLifeOverhaul
         /// </summary>
         public static Func<int> SleepingAway;
 
+        /// <summary>Booked quality for an actual native guest bed; -1 leaves the native bed's quality unchanged.</summary>
+        public static Func<int> PhysicalBedQuality;
+
+        /// <summary>A private guest room is indoors but has no public audience. Default: false.</summary>
+        public static Func<bool> PrivateGuestRoom;
+
         /// <summary>
         /// A dish cooked at home is ready and about to be eaten (its fill, of the game's 100): true when it is carried to a
         /// free seat and eaten there, so the cooker's bite is left out. The meal's effect is the cooking's own either way.

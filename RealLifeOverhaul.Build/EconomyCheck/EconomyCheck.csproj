@@ -100,6 +100,9 @@
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Justice\JusticeState.cs" Link="Mod\JusticeState.cs" />
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Justice\JusticeState.Save.cs" Link="Mod\JusticeState.Save.cs" />
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Travel\TravelCatalogue.cs" Link="Mod\TravelCatalogue.cs" />
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Travel\TravelState.cs" Link="Mod\TravelState.cs" />
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Travel\HotelNightRules.cs" Link="Mod\HotelNightRules.cs" />
+    <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Travel\HotelVisitRules.cs" Link="Mod\HotelVisitRules.cs" />
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Core\EmpireMotorsLines.cs" Link="Mod\EmpireMotorsLines.cs" />
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Utilities\UtilitiesCatalogue.cs" Link="Mod\UtilitiesCatalogue.cs" />
     <Compile Include="..\..\Assets\Mods\RealLifeOverhaul\Scripts\Utilities\UtilitiesModel.cs" Link="Mod\UtilitiesModel.cs" />

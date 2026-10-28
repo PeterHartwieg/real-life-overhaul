@@ -310,9 +310,9 @@ internal static partial class Program
         ContractBook.Mark(m => m == GameContract.Switchers[5] ? "the type BillboardAd is not in BigAmbitions" : null);
         Check(GameContract.FarDistricts.Off && ContractBook.OffParts().Count == 1, "one type of a list missing switches off the part that needs the whole list");
         ContractBook.Mark(m => m == GameContract.CtaBehaviours || m == GameContract.LampIsOn ? "the field is missing" : null);
-        Check(GameContract.ClickHome.Off && GameContract.ClickLedger.Off && GameContract.ClickBusStop.Off && GameContract.ClickDesk.Off && GameContract.StreetLamps.Off
-              && ContractBook.OffParts().Count == 5, "two missing pieces switch off what stands on either");
-        Check(ContractBook.FeaturesHit().SetEquals(new[] { "home", "ledger", "transport", "careers_study", "performance" }), "...and hit those features only");
+        Check(GameContract.ClickHome.Off && GameContract.ClickLedger.Off && GameContract.ClickBusStop.Off && GameContract.ClickDesk.Off && GameContract.StreetLamps.Off && GameContract.HotelRoom.Off
+              && ContractBook.OffParts().Count == 6, "two missing pieces switch off what stands on either");
+        Check(ContractBook.FeaturesHit().SetEquals(new[] { "home", "ledger", "transport", "careers_study", "performance", "travel" }), "...and hit those features only");
         ContractBook.Mark(m => null);
         Check(ContractBook.OffParts().Count == 0 && ContractBook.FeaturesHit().Count == 0, "with every piece there, every part is on");
     }

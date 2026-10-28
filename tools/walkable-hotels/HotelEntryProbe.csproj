@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>HotelEntryProbe</AssemblyName>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RealLifeOverhaul" HintPath="../../RealLifeOverhaul.Build/bin/Release/RealLifeOverhaul.dll" Private="false" />
+    <Reference Include="$(GameManaged)/BigAmbitions*.dll" Private="false" />
+    <Reference Include="$(GameManaged)/UnityEngine*.dll" Private="false" />
+    <Reference Include="$(GameManaged)/Newtonsoft.Json.dll" Private="false" />
+    <Reference Include="$(GameManaged)/HGExtensions.dll" Private="false" />
+    <Reference Include="$(GameManaged)/HGPlugins.dll" Private="false" />
+    <Reference Include="$(GameManaged)/ExternalPlugins.dll" Private="false" />
+  </ItemGroup>
+  <Target Name="RequireLocalGame" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(GameManaged)/BigAmbitions.dll')" Text="Pass GameManaged pointing at the installed game's Managed directory." />
+  </Target>
+</Project>

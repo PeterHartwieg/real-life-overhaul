@@ -62,3 +62,6 @@ CharacterAssets/build_hair/
 # Asset agents' working folders (PROPS_BUILD)
 PropAssets/build_*/
 RealLifeOverhaul.Build/out/
+
+# Standalone native hotel diagnostic project.
+!tools/walkable-hotels/HotelEntryProbe.csproj

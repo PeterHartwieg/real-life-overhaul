@@ -18,11 +18,14 @@ Hotels the player can stay in, and holidays bought at the game's own travel agen
 ```
 TravelCatalogue  every number and name: rooms, the eight hotel slots, trips, events, prices (game-free)
 TravelState      what a save remembers, one line in modData under "reallife:travel"; the no-repeat dealing (game-free)
+HotelNightRules  a completed sleep's booking identity and once-per-stay-day night receipt (game-free)
 TravelBridges    the doors to Home, Social, Law, Transport and Leisure, each with a working default
 TravelEffects    money, hunger, energy and travel's own happiness modifiers, through the game's systems
 TravelText       lines from en.json with their {names} filled
 Hotels           which buildings are hotels; sign, awning, luggage cart, the one doorman, the city-map icons
-HotelStay        the room as a list, sleep through the game's time skip, checkout; HotelReception is the desk's list
+HotelVisit       native guest-room lifecycle, temporary fixtures and click actions
+HotelVisitRules  pure supported-shell and empty-host access gates
+HotelStay        booking, services, the fallback room list, sleep through the game's time skip, checkout; HotelReception is the desk's list
 Holidays         agencies, the agent, tickets, the trip as a list, the Hamptons weekend, burnout, the trade fair
 TravelPhone      the "Trips" contact (the page) and the agency's own number
 TravelDirector   the component: save and load, ticks, the game's panel at a door, the watchdog, the test buttons
@@ -50,6 +53,20 @@ TravelDirector   the component: save and load, ticks, the game's panel at a door
 
 - **Sleep** is `EnergyHelper.SetCurrentEnergyRegen` (bed 0.35 energy a minute, car 0.30, bench 0.25) times `energyRegenMultiplier` (the default plus a bed's quality / 100), run by the time skip.
 
+## Walkable Standard guest rooms
+
+A current Standard booking at an eligible empty L1 hotel uses the vanilla building transition. The guest can walk to a native bed, shower, armchair and service desk, with wardrobe, rugs, plants and other native furnishings, and leave by the native door while keeping the booking. Reception remains outside for this first slice. Other categories, shells, occupied hosts and Going Public sessions retain the existing room menu.
+
+`HotelVisit` owns runtime presence, temporary furniture and its native activities; legacy `TravelState.InRoom` still means the simulated menu room. The desk reuses existing food, laundry, extension, late-checkout and billing operations. Closing that menu keeps the guest inside. Native sleep/shower/rest replace the corresponding instant menu actions.
+
+The native quality-0 bed supplies Standard's normal energy rate; `HomeBridges.PhysicalBedQuality` supplies the booked Home quality of 50 only during that bed's actual sleep. The game owns ordinary sleep happiness and energy; Home owns hygiene and its sleep tracking. `PrivateGuestRoom` suppresses only the public low-hygiene penalty. The room is never a player-owned home.
+
+Completed native sleep lasting at least 240 actual game minutes earns at most one hotel night per captured stay-day (06:00 boundary), including daytime sleep. Walking to bed does not count. The saved `ncred` receipt preserves day 0; old saves without it retain their existing count. Loading cancels an unfinished native activity and rebuilds the room at its entrance without awarding a pending night. A finished receipt is not replayed.
+
+Checkout cancels the owned native activity and its fast-forward, observes normal activity completion, settles existing billing and exits. Ownership changes, option-off and incompatible state stop new actions and recover outside, retaining an unexpired booking. Fixtures are never inserted into saved furniture. First entry may initialize the game's normal clean-floor cells; no registration replacement or shell repaint is performed.
+
+For runtime evidence and remaining acceptance gates, see the [implementation plan](../plans/walkable-hotels.md) and [Opus review record](../reviews/walkable-hotels-opus-review.md).
+
 ## Prices
 
 Set against the game's own figures, read from its data files: the smallest apartment (54 m2) rents for 31 a day in Industry City, 34-39 in Lower Manhattan, 40-48 in the Garment District, 55-63 in Murray Hill, 79-95 in Hell's Kitchen and 134-138 in Midtown; 96 m2 for 54-261; 204 m2 for 115-529; 589 m2 for 364-1,455.
@@ -71,6 +88,10 @@ Seven nights or more cost 0.8 of that every night, fourteen or more 0.72.
 On deposit the first night is paid at the desk and the rest, 5 % dearer, at checkout.
 Late checkout (16:00 instead of 11:00) is 30 % of a night, free in a luxury room.
 Eight stamps (one a night) are a free night worth up to 250.
+
+A completed night sleep of at least four game hours counts at most once per booking and stay-day. The stay-day is captured when sleep begins and changes at 06:00. Naps retain their existing behaviour. Repeated night sleeps on the same stay-day no longer add extra `NightsSlept` or repeat a rough-night or comfort outcome.
+
+The optional `ncred` field at the end of `reallife:travel` records that stay-day. Its absent value is `int.MinValue`, because day zero is valid before 06:00 on game day one. Older saves retain their existing slept-night count without an invented receipt date. A runtime booking revision prevents an old sleep from settling after a load or cancel/rebook, even when the replacement has the same hotel, category and check-in day. Pending sleep is not saved. The receipt and count are recorded before effects; a failed effect is logged without replaying the night.
 
 A hostel bed costs what the cheapest apartment rents for and sleeps worse, so it is a stopgap, never the better deal: a week of it (36 a night) is still dearer than renting in Industry City.
 A mid-range room costs a day's rent of a mid-sized apartment in the same district, a luxury room a day's rent of a large one, and a beach week about twelve days of the cashier job.

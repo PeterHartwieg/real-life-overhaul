@@ -193,6 +193,7 @@ namespace RealLifeOverhaul
             {
                 return;
             }
+            if (_director.Visit.Active) { _director.Visit.Leave(true); return; }
             if (TravelState.InRoom)
             {
                 LeaveRoom();
@@ -200,7 +201,7 @@ namespace RealLifeOverhaul
             TravelText.Toast(NotificationType.Info, CheckOutNow(false), 10f);
         }
 
-        public bool EnterRoom(out TestRefusal why)
+        public bool EnterRoom(out TestRefusal why, HotelSite site = null, bool physical = true)
         {
             why = TestRefusal.None;
             if (!TravelState.HasRoom)
@@ -213,6 +214,16 @@ namespace RealLifeOverhaul
                 HourTick();
                 why = TestRefusal.NothingFits;
                 return false;
+            }
+            site ??= _director.Hotels.ById(TravelState.HotelId);
+            if (site == null || site.Slot.Id != TravelState.HotelId || _director.Visit.Active)
+            {
+                why = TestRefusal.NothingFits;
+                return false;
+            }
+            if (physical && !TravelState.InRoom && _director.Visit.TryEnter(site))
+            {
+                return true;
             }
             // Going up to the room opens a list, not a scene, so a paused game may.
             if (!_director.CanSeclude(out why, pausedIsFine: true))
@@ -231,6 +242,7 @@ namespace RealLifeOverhaul
         /// <summary>Back to the pavement; the room is kept.</summary>
         public void LeaveRoom()
         {
+            if (_director.Visit.Active) { _director.Visit.Leave(false); return; }
             if (_sleeping)
             {
                 StopSleep();
@@ -244,7 +256,7 @@ namespace RealLifeOverhaul
 
         public void Resume()
         {
-            if (TravelState.InRoom && !EnterRoom(out _))
+            if (TravelState.InRoom && !EnterRoom(out _, physical: false))
             {
                 TravelState.InRoom = false;
             }
@@ -281,19 +293,19 @@ namespace RealLifeOverhaul
             if (HotelDeskDialog.Booked && TravelState.HasRoom && TravelDirector.Instance != null)
             {
                 HotelDeskDialog.Booked = false;
-                _director.Run(EnterSoon());
+                _director.Run(EnterSoon(HotelDeskDialog.Site));
             }
         }
 
-        public void GoUpSoon()
+        public void GoUpSoon(HotelSite site)
         {
-            _director.Run(EnterSoon());
+            _director.Run(EnterSoon(site));
         }
 
-        private IEnumerator EnterSoon()
+        private IEnumerator EnterSoon(HotelSite site)
         {
             yield return new WaitForSecondsRealtime(0.4f);   // the dialogue panel or the list closes first
-            EnterRoom(out _);
+            EnterRoom(out _, site);
         }
     }
 }
