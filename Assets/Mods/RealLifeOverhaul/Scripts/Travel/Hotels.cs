@@ -151,7 +151,8 @@ namespace RealLifeOverhaul
             {
                 HotelSite site = _sites[i];
                 if (site.Slot.Anchors != null || site.Building == null || !Mine(site.Building.building)
-                    || (TravelState.InRoom && TravelState.HotelId == site.Slot.Id))
+                    || (TravelState.InRoom && TravelState.HotelId == site.Slot.Id)
+                    || TravelDirector.Instance?.Visit?.HotelId == site.Slot.Id)
                 {
                     continue;
                 }

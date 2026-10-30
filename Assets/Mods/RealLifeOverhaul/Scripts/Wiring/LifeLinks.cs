@@ -34,6 +34,8 @@ namespace RealLifeOverhaul
                 GarageBridges.RoadIsWet = () => RainHelper.AreRainDropsFalling || Events.Weather.Sky >= Events.Sky.Rain;
                 HomeBridges.Sheltered = () => TravelState.InRoom;
                 HomeBridges.SleepingAway = () => HotelStay.SleepingBed;
+                HomeBridges.PhysicalBedQuality = () => TravelDirector.Instance?.Visit?.BedQuality ?? -1;
+                HomeBridges.PrivateGuestRoom = () => TravelDirector.Instance?.Visit?.PrivateRoom == true;
                 LifeAccounts.Home = HasHome;
             }
 
@@ -50,6 +52,8 @@ namespace RealLifeOverhaul
                 GarageBridges.RoadIsWet = null;
                 HomeBridges.Sheltered = null;
                 HomeBridges.SleepingAway = null;
+                HomeBridges.PhysicalBedQuality = null;
+                HomeBridges.PrivateGuestRoom = null;
                 LifeAccounts.Home = null;
             }
 

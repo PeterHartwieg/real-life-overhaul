@@ -49,11 +49,13 @@ ba:controls_hint_rotate_left
 ba:controls_hint_rotate_right
 ba:itemname_apple
 ba:itemname_appleseeds
+ba:itemname_armchair1
 ba:itemname_bakingmix
 ba:itemname_banana
 ba:itemname_bananaseeds
 ba:itemname_barley
 ba:itemname_battery
+ba:itemname_beddoublewooden
 ba:itemname_beer
 ba:itemname_blueagave
 ba:itemname_bottleofwine
@@ -70,7 +72,10 @@ ba:itemname_chickenbreast
 ba:itemname_cigarettepaper
 ba:itemname_cigarpaper
 ba:itemname_clay
+ba:itemname_coffeetable2
+ba:itemname_coffeetable3
 ba:itemname_colaflavoring
+ba:itemname_colorfulcarpet
 ba:itemname_coppercladlaminate
 ba:itemname_cornkernels
 ba:itemname_cottoncandy
@@ -78,6 +83,7 @@ ba:itemname_croissant
 ba:itemname_cupcake
 ba:itemname_cupofcoffee
 ba:itemname_cupoftea
+ba:itemname_deskplant01
 ba:itemname_donut
 ba:itemname_dough
 ba:itemname_energydrink
@@ -93,6 +99,9 @@ ba:itemname_glass
 ba:itemname_grapes
 ba:itemname_groundbeef
 ba:itemname_groundcoffeebeans
+ba:itemname_groundplant02
+ba:itemname_groundplant03
+ba:itemname_groundplant04
 ba:itemname_haircareformula
 ba:itemname_hops
 ba:itemname_hotdog
@@ -100,6 +109,7 @@ ba:itemname_icecream
 ba:itemname_integratedcircuits
 ba:itemname_juniperberries
 ba:itemname_kabob
+ba:itemname_kingsizebed
 ba:itemname_lettuce
 ba:itemname_lettuceseeds
 ba:itemname_limejuice
@@ -110,11 +120,17 @@ ba:itemname_metalwire
 ba:itemname_microphone
 ba:itemname_milk
 ba:itemname_mop
+ba:itemname_officedesk2left
 ba:itemname_onion
 ba:itemname_paper
+ba:itemname_patterncarpet
 ba:itemname_pear
 ba:itemname_pearseeds
 ba:itemname_pepper
+ba:itemname_pictureframe2
+ba:itemname_pictureframe3
+ba:itemname_pictureframe4
+ba:itemname_pictureframe5
 ba:itemname_pizza
 ba:itemname_plastic
 ba:itemname_popcorn
@@ -125,8 +141,10 @@ ba:itemname_salad
 ba:itemname_schooldoor
 ba:itemname_screencinema
 ba:itemname_sealedcardboardbox
+ba:itemname_shower
 ba:itemname_slicedonions
 ba:itemname_slushi
+ba:itemname_smallcabinet
 ba:itemname_sodacan
 ba:itemname_speaker
 ba:itemname_sugar
@@ -139,6 +157,7 @@ ba:itemname_uncutgemscheap
 ba:itemname_uncutgemsexpensive
 ba:itemname_vermouth
 ba:itemname_vinaigrette
+ba:itemname_wardrobe
 ba:itemname_water
 ba:itemname_whisky
 ba:itemname_yeast

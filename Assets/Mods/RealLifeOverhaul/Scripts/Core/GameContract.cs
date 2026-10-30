@@ -97,6 +97,10 @@ namespace RealLifeOverhaul
             "stand-ins for the spray and the sound of a car that has none, so the game's car wash in a repair bay ends on it");
         public static readonly GamePart TrafficMend = ContractBook.Part("traffic_mend", "traffic", "putting the city's traffic right when it stops adding cars for good");
 
+        public static readonly GamePart HotelRoom = ContractBook.Part("hotel_room", "travel", "walking in a hotel guest room");
+        public static readonly GameMember HotelBedEnvironment = Field(HotelRoom, Game, "BedController", "sleepEnvironment", "SleepEnvironment");
+        public static readonly GameMember HotelLampAlwaysOn = Field(HotelRoom, Game, "IndoorLightController", "ignoreTimeOfDay", "Boolean");
+
         // The pieces, each group under the code that reads it.
 
         // Camera/PoiDirection: without them every marker is looked at, and a direction marker uses the whole screen
@@ -180,7 +184,7 @@ namespace RealLifeOverhaul
         public static readonly GameMember RainIntensity = StaticField(Thunder, Sky, "BigAmbitions.DayNightCycle.RainHelper", "NextRainMaxIntensity", "Single");
 
         // Home/HomeOffers, Ledger/LedgerPointer, Transport/TransitPointer: the game's list of what a click does
-        public static readonly GameMember CtaBehaviours = StaticField(On(ClickHome, ClickLedger, ClickBusStop, ClickDesk), Game, "Player.HUD.ItemInfoOverlays.CtaManager", "CtaBehaviors", "List<ICtaBehavior>");
+        public static readonly GameMember CtaBehaviours = StaticField(On(ClickHome, ClickLedger, ClickBusStop, ClickDesk, HotelRoom), Game, "Player.HUD.ItemInfoOverlays.CtaManager", "CtaBehaviors", "List<ICtaBehavior>");
 
         // Jobs/JobMop
         public static readonly GameMember MopClick = Optional(Method(Mop, Game, "MopController", "OnFloorCellClick", "Void", "DirtSpotObject"));   // else the cell under the player

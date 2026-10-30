@@ -61,6 +61,12 @@ internal static partial class Program
 
     private static int Main(string[] args)
     {
+        if (args.Length == 1 && args[0] == "--hotel-nights")
+        {
+            HotelNights();
+            Console.WriteLine(_failed == 0 ? "ALL CHECKS PASSED (" + _run + ")" : _failed + " of " + _run + " CHECKS FAILED");
+            return _failed == 0 ? 0 : 1;
+        }
         if (args.Length >= 1 && args[0] == "--companion")
         {
             CompanionChecks(args.Length == 2 ? args[1] : null);
@@ -348,6 +354,7 @@ internal static partial class Program
         HomeFixes();    // home life: the roommate's talk test with no character, the door to social life nobody read, rain and sleep in a hotel room (HomeFixChecks.cs)
         LifeFixes();    // life events: news of the player's home, building, neighbours and landlord only to a player with a home (LifeFixChecks.cs)
         TravelFixes();  // travel: the hotel room refused while the game was paused (TravelFixChecks.cs)
+        HotelNights();  // one receipt per booking and stay-day, including day zero, across faults and loads
         ChessFixes();   // street chess: the whole setup clear of crossings in both placement paths (ChessFixChecks.cs)
         LedgerFixes();  // the City Ledger: a kiosk copy never charged when the page cannot open, the subscription's lines (LedgerFixChecks.cs)
         FamilyWealth(); // the partner takes the player's money by how they lean (FamilyWealthChecks.cs)

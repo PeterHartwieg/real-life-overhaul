@@ -18,7 +18,7 @@ namespace RealLifeOverhaul
         public static int SleepingBed { get; private set; } = -1;
 
         // A room's bed against the game's own: an ordinary bed is 50, and each tenth of the room's sleep bonus is 10 more.
-        private static int BedQuality(RoomType room) => Mathf.Clamp(Mathf.RoundToInt(50f + room.BedBonus * 100f), 0, 100);
+        internal static int BedQuality(RoomType room) => Mathf.Clamp(Mathf.RoundToInt(50f + room.BedBonus * 100f), 0, 100);
 
         /// <summary>Puts the game's energy regeneration back as it was. Safe at any time; the watchdog calls it on every forced exit.</summary>
         public static void EndSleepEffects()
@@ -83,6 +83,7 @@ namespace RealLifeOverhaul
                 yield break;
             }
             float before = TimeHelper.NowInMinutes();
+            var credit = new HotelSleep(before, TravelEffects.StayDay());
             _sleeping = true;
             Show();
             // As the game's own bed does (PlayerActivity.SleepActivity): no walking drain, the sleep rate on, time skipped.
@@ -93,38 +94,65 @@ namespace RealLifeOverhaul
             yield return _director.Skip(goal, night ? "reallife_travel_tm_sleep" : "reallife_travel_tm_nap");
             EndSleepEffects();
             _sleeping = false;
-            if (!TravelState.HasRoom)
+            if (!HotelNightRules.Matches(credit))
             {
-                yield break;   // the watchdog took the stay away meanwhile
+                yield break;   // the watchdog, a load or a replacement booking ended this sleep's stay
             }
             float slept = TimeHelper.NowInMinutes() - before;
-            Say(TravelText.T(TravelText.Pick(TravelCatalogue.SleptWell)));
-            if (night && slept >= 240f)
+            if (night && HotelNightRules.CanCredit(credit, before + slept))
             {
-                TravelState.NightsSlept++;
-                if (room.RoughNight > 0f && Random.value < room.RoughNight)
-                {
-                    TravelEvent rough = TravelState.Deal(TravelCatalogue.RoughNights, false, () => Random.value);
-                    TravelEffects.Apply(rough);
-                    if (rough != null && rough.Mood < 0)
-                    {
-                        ModState.AddModifier(TravelEffects.RoughNight);
-                    }
-                    if (rough != null)
-                    {
-                        Say(TravelText.T(rough.Key));
-                    }
-                }
-                else if (room.Quality == 3)
-                {
-                    ModState.AddModifier(TravelEffects.Comfort);   // lasts into the next day
-                    Say(TravelText.T("reallife_travel_room_slept_lux"));
-                }
+                CompleteNight(room, credit, before + slept);
+            }
+            else
+            {
+                Say(TravelText.T(TravelText.Pick(TravelCatalogue.SleptWell)));
             }
             if (TravelState.InRoom)
             {
                 Show();
             }
+        }
+
+        // Settles Travel's night reward; ordinary energy and Home's sleep effects are not part of this receipt.
+        internal void CompleteNight(RoomType room, HotelSleep credit, double ended)
+        {
+            try
+            {
+                ApplyNight(room, credit, ended);
+            }
+            catch (Exception e)
+            {
+                _director.Fault(e);   // the receipt prevents replay; the room must still reopen after a failed effect
+            }
+        }
+
+        private void ApplyNight(RoomType room, HotelSleep credit, double ended)
+        {
+            bool roughNight = false;
+            HotelNightRules.Complete(credit, ended,
+                () => roughNight = room.RoughNight > 0f && Random.value < room.RoughNight,
+                () =>
+                {
+                    Say(TravelText.T(TravelText.Pick(TravelCatalogue.SleptWell)));
+                    if (roughNight)
+                    {
+                        TravelEvent rough = TravelState.Deal(TravelCatalogue.RoughNights, false, () => Random.value);
+                        TravelEffects.Apply(rough);
+                        if (rough != null && rough.Mood < 0)
+                        {
+                            ModState.AddModifier(TravelEffects.RoughNight);
+                        }
+                        if (rough != null)
+                        {
+                            Say(TravelText.T(rough.Key));
+                        }
+                    }
+                    else if (room.Quality == 3)
+                    {
+                        ModState.AddModifier(TravelEffects.Comfort);
+                        Say(TravelText.T("reallife_travel_room_slept_lux"));
+                    }
+                });
         }
 
         private IEnumerator RestRoutine(RoomType room)

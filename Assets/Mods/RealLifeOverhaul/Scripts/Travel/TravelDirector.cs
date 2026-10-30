@@ -47,6 +47,7 @@ namespace RealLifeOverhaul
 
         public Hotels Hotels { get; private set; }
         public HotelStay Stay { get; private set; }
+        public HotelVisit Visit { get; private set; }
         public Holidays Holidays { get; private set; }
 
         /// <summary>True while the door panel is up and in the frame its button ran, so NearbyInteraction stands aside.</summary>
@@ -74,6 +75,8 @@ namespace RealLifeOverhaul
             TravelEffects.Register(Logger);   // before ModState reads the save
             Hotels = new Hotels(transform, Logger);
             Stay = new HotelStay(this);
+            Visit = gameObject.AddComponent<HotelVisit>();
+            Visit.Initialise(this);
             Holidays = new Holidays(this);
             Pressed = OnPressed;
         }
@@ -86,6 +89,10 @@ namespace RealLifeOverhaul
                 if (_skipping)
                 {
                     HotelStay.EndSleepEffects();
+                }
+                if (Visit != null)
+                {
+                    Destroy(Visit);
                 }
                 Seclude(false);
                 Hotels.Dispose();
@@ -254,6 +261,7 @@ namespace RealLifeOverhaul
             {
                 TravelState.StreakDay = _lastDay;   // a save without travel: the count begins today
             }
+            Visit.RecoverLoad();
             Holidays.FindAgencies();
             TravelAgentDialog.Host = Holidays;
             TravelPhone.Setup();
@@ -370,7 +378,7 @@ namespace RealLifeOverhaul
             if (!_secluded)
             {
                 // Reception is used from the street, in no room.
-                if (Window.IsOpen && !TravelState.InRoom && !TravelState.Away && !Holidays.ShowingCancel && !Stay.AtReception)
+                if (Window.IsOpen && !TravelState.InRoom && !TravelState.Away && !Holidays.ShowingCancel && !Stay.AtReception && !(Visit != null && Visit.Ready))
                 {
                     Window.Close();
                 }
@@ -397,6 +405,7 @@ namespace RealLifeOverhaul
         /// <summary>The way out of everything: no list or block, energy put back, the player in the street; room and ticket kept.</summary>
         public void ToStreet()
         {
+            if (Visit != null && Visit.Active) { Visit.Leave(false); return; }
             bool skipping = _skipping;
             Stay.ForceOut();
             if (TravelState.Away)

@@ -23,6 +23,10 @@ namespace RealLifeOverhaul
         public static int NightRate;           // the average night of this booking, for refunds and extras
         public static bool LateCheckout;
         public static int NightsSlept;
+        public static int NightCredited = int.MinValue; // the last stay-day counted, including day zero; never a pending sleep
+
+        /// <summary>Changes when a booking is cleared, replaced or loaded; a coroutine from the old booking cannot settle the new one.</summary>
+        public static ulong BookingRevision { get; private set; }
         public static bool InRoom;             // up in the room, its list open; a save made there reopens it
         public static bool Package;            // the room came with the Hamptons weekend
 
@@ -101,8 +105,10 @@ namespace RealLifeOverhaul
 
         public static void ClearRoom()
         {
+            unchecked { BookingRevision++; }
             HotelId = RoomId = null;
             CheckInDay = Nights = Paid = Owed = NightRate = NightsSlept = 0;
+            NightCredited = int.MinValue;
             LateCheckout = InRoom = Package = false;
         }
 
@@ -195,6 +201,10 @@ namespace RealLifeOverhaul
                 seen.Add(key.StartsWith(EventPrefix, StringComparison.Ordinal) ? key.Substring(EventPrefix.Length) : key);
             }
             Put(text, "seen", string.Join(",", seen));
+            if (NightCredited != int.MinValue)
+            {
+                Put(text, "ncred", NightCredited.ToString(CultureInfo.InvariantCulture));
+            }
             return text.ToString();
         }
 
@@ -226,6 +236,7 @@ namespace RealLifeOverhaul
             NightsSlept = Int(data, "slept");
             InRoom = Bool(data, "inroom");
             Package = Bool(data, "package");
+            NightCredited = Int(data, "ncred", int.MinValue);
             WakeHour = Math.Min(Math.Max(Int(data, "wake", 7), 4), 12);
             Stamps = Int(data, "stamps");
             FreeNights = Int(data, "free");
